@@ -1,24 +1,53 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import Modal from '../UI/Modal';
 import classes from './Cart.module.css';
+import CartContext from '../../store/card-context';
+import CartItem from './CartItem/CartItem';
 
 const Cart = props => {
+    const cartCtx = useContext(CartContext);
 
-    // const cartItems = <ul className={classes['cart-items']}>{[
-    //     { id: 'c1', name: 'Shushi', amount: 2, price: 12.99 }
-    // ].map(item => <li key={item.id}>{item.name}</li> )}</ul>;
+    const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+
+    const hasItems = cartCtx.items.length > 0;
+
+    const addItemToCartHandler = item => {
+
+    };
+
+    const removeItemFromCartHandler = id => {
+
+    };
+
+    const cartItems = (
+        <ul className={classes['cart-items']}>
+            {cartCtx.items.map(item => {
+                return (
+                    <CartItem
+                        key={item.id}
+                        name={item.name}
+                        price={item.price}
+                        amount={item.amount}
+                        summary={item.summary}
+                        onRemove={removeItemFromCartHandler.bind(null, item)}
+                        onAdd={addItemToCartHandler.bind(null, item.id)}
+                    />
+                )
+            })}
+        </ul>
+    )
 
     return (
         <Modal onClick={props.onCloseCart}>
-            {/* {cartItems.name} */}
+            {cartItems}
             <div className={classes.total}>
                 <span>Total Amount</span>
-                <span>54.52</span>
+                <span>{totalAmount}</span>
             </div>
             <div className={classes.actions}>
                 <button onClick={props.onCloseCart} className={classes['button--alt']}>Close</button>
-                <button className={classes.button}>Order</button>
+                {hasItems && <button className={classes.button}>Order</button>}
             </div>
         </Modal>
     )
