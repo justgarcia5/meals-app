@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Header from './components/Layout/Header';
 import Cart from './components/Cart/Cart';
 import Meals from './components/Meals/Meals';
+import CartProvider from './store/CartProvider';
 
 function App() {
     const [isModalActive, setIsModalAcitve] = useState(false);
@@ -16,13 +17,13 @@ function App() {
     };
 
     return (
-        <React.Fragment>
-        {isModalActive && <Cart onCloseCartHandler={closeCartHandler} />}
-        <Header onShowCartHandler={showCartHandler} />
-        <main>
-            <Meals />
-        </main>
-        </React.Fragment>
+        <CartProvider>
+            {isModalActive && <Cart onCloseCart={closeCartHandler} />}
+            <Header onShowCart={showCartHandler} />
+            <main>
+                <Meals />
+            </main>
+        </CartProvider>
     );
 }
 
